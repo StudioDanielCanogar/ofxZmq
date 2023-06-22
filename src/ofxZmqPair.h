@@ -1,6 +1,4 @@
 #pragma once
-
-#include "ofMain.h"
 #include "ofxZmq.h"
 
 class ofxZmqPair : public ofxZmqSocket

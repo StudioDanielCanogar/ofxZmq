@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ofMain.h"
+// #include "ofMain.h"
 #include "ofxZmq.h"
 
 class ofxZmqRequest : public ofxZmqSocket

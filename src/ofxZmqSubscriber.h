@@ -1,27 +1,24 @@
 #pragma once
 
-#include "ofMain.h"
+// #include "ofMain.h"
 #include "ofxZmq.h"
 
 class ofxZmqSubscriber : public ofxZmqSocket
 {
-public:
-	
-	ofxZmqSubscriber();
-	
-	void connect(string addr);
-	void setFilter(string filter);
-	void disconnect(string addr);
+   public:
+    ofxZmqSubscriber();
 
-	bool receive(string &data);
-	bool receive(ofBuffer &data);
-	
-	bool hasWaitingMessage(long timeout_millis = 0);
-	bool getNextMessage(string &data);
-	bool getNextMessage(ofBuffer &data);
+    void connect(string addr);
+    void setFilter(string filter);
+    void disconnect(string addr);
 
-private:
-	
-	string filter;
-	
+    bool receive(string& data);
+    bool receive(ofBuffer& data);
+
+    bool hasWaitingMessage(long timeout_millis = 0);
+    bool getNextMessage(string& data);
+    bool getNextMessage(ofBuffer& data);
+
+   private:
+    string filter;
 };

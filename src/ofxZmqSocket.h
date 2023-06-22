@@ -1,53 +1,52 @@
 #pragma once
 
-#include "ofMain.h"
+// #include "ofMain.h"
+#include <string>
 
+#include "ofFileUtils.h"
 #include "zmq.hpp"
 
+using namespace std;
 class ofxZmqSocket
 {
+   public:
+    virtual ~ofxZmqSocket();
 
-public:
+    void setIdentity(string data);
+    string getIdentity();
 
-	virtual ~ofxZmqSocket();
+    bool isConnected();
 
-	void setIdentity(string data);
-	string getIdentity();
+    void setHighWaterMark(long maxQueueSize);
+    void setSendHighWaterMark(long maxQueueSize);
+    void setReceiveHighWaterMark(long maxQueueSize);
 
-	bool isConnected();
+    long getHighWaterMark();
+    long getSendHighWaterMark();
+    long getReceiveHighWaterMark();
 
-	void setHighWaterMark(long maxQueueSize);
-	void setSendHighWaterMark(long maxQueueSize);
-	void setReceiveHighWaterMark(long maxQueueSize);
+   protected:
+    zmq::socket_t socket;
+    zmq::pollitem_t items[1];
 
-	long getHighWaterMark();
-	long getSendHighWaterMark();
-	long getReceiveHighWaterMark();
+    ofxZmqSocket(int type);
 
-protected:
+    void connect(string addr);
+    void bind(string addr);
+    void disconnect(string addr);
+    void unbind(string addr);
 
-	zmq::socket_t socket;
-	zmq::pollitem_t items[1];
+    bool send(const void* data, size_t len, bool nonblocking, bool more);
+    bool send(void* data, size_t len, bool nonblocking, bool more);
+    bool send(const string& data, bool nonblocking, bool more);
+    bool send(const ofBuffer& data, bool nonblocking, bool more);
 
-	ofxZmqSocket(int type);
+    bool receive(string& data);
+    bool receive(ofBuffer& data);
 
-	void connect(string addr);
-	void bind(string addr);
-	void disconnect(string addr);
-	void unbind(string addr);
+    bool hasWaitingMessage(long timeout_millis = 0);
 
-	bool send(const void *data, size_t len, bool nonblocking, bool more);
-	bool send(void *data, size_t len, bool nonblocking, bool more);
-	bool send(const string &data, bool nonblocking, bool more);
-	bool send(const ofBuffer &data, bool nonblocking, bool more);
-	
-	bool receive(string &data);
-	bool receive(ofBuffer &data);
-
-	bool hasWaitingMessage(long timeout_millis = 0);
-	
-	// return true if has more flag
-	bool getNextMessage(string &data);
-	bool getNextMessage(ofBuffer &data);
-
+    // return true if has more flag
+    bool getNextMessage(string& data);
+    bool getNextMessage(ofBuffer& data);
 };
